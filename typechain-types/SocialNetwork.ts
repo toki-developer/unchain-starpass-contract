@@ -25,10 +25,35 @@ import type {
   utils,
 } from "ethers";
 
+export declare namespace ISocialNetwork {
+  export type PostDetailStruct = {
+    postId: PromiseOrValue<BigNumberish>;
+    author: PromiseOrValue<string>;
+    message: PromiseOrValue<string>;
+    totalLikes: PromiseOrValue<BigNumberish>;
+    time: PromiseOrValue<BigNumberish>;
+  };
+
+  export type PostDetailStructOutput = [
+    BigNumber,
+    string,
+    string,
+    BigNumber,
+    BigNumber
+  ] & {
+    postId: BigNumber;
+    author: string;
+    message: string;
+    totalLikes: BigNumber;
+    time: BigNumber;
+  };
+}
+
 export interface SocialNetworkInterface extends utils.Interface {
   functions: {
     "getLastPostId()": FunctionFragment;
     "getPost(uint256)": FunctionFragment;
+    "getPosts(uint256,uint256)": FunctionFragment;
     "like(uint256)": FunctionFragment;
     "post(string)": FunctionFragment;
     "unlike(uint256)": FunctionFragment;
@@ -38,6 +63,7 @@ export interface SocialNetworkInterface extends utils.Interface {
     nameOrSignatureOrTopic:
       | "getLastPostId"
       | "getPost"
+      | "getPosts"
       | "like"
       | "post"
       | "unlike"
@@ -50,6 +76,10 @@ export interface SocialNetworkInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "getPost",
     values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getPosts",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "like",
@@ -69,6 +99,7 @@ export interface SocialNetworkInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getPost", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getPosts", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "like", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "post", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "unlike", data: BytesLike): Result;
@@ -108,13 +139,13 @@ export interface SocialNetwork extends BaseContract {
     getPost(
       _postId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<
-      [string, BigNumber, BigNumber] & {
-        message: string;
-        totalLikes: BigNumber;
-        time: BigNumber;
-      }
-    >;
+    ): Promise<[ISocialNetwork.PostDetailStructOutput]>;
+
+    getPosts(
+      limit: PromiseOrValue<BigNumberish>,
+      offset: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[ISocialNetwork.PostDetailStructOutput[]]>;
 
     like(
       _postId: PromiseOrValue<BigNumberish>,
@@ -137,13 +168,13 @@ export interface SocialNetwork extends BaseContract {
   getPost(
     _postId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
-  ): Promise<
-    [string, BigNumber, BigNumber] & {
-      message: string;
-      totalLikes: BigNumber;
-      time: BigNumber;
-    }
-  >;
+  ): Promise<ISocialNetwork.PostDetailStructOutput>;
+
+  getPosts(
+    limit: PromiseOrValue<BigNumberish>,
+    offset: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<ISocialNetwork.PostDetailStructOutput[]>;
 
   like(
     _postId: PromiseOrValue<BigNumberish>,
@@ -166,13 +197,13 @@ export interface SocialNetwork extends BaseContract {
     getPost(
       _postId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<
-      [string, BigNumber, BigNumber] & {
-        message: string;
-        totalLikes: BigNumber;
-        time: BigNumber;
-      }
-    >;
+    ): Promise<ISocialNetwork.PostDetailStructOutput>;
+
+    getPosts(
+      limit: PromiseOrValue<BigNumberish>,
+      offset: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<ISocialNetwork.PostDetailStructOutput[]>;
 
     like(
       _postId: PromiseOrValue<BigNumberish>,
@@ -200,6 +231,12 @@ export interface SocialNetwork extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getPosts(
+      limit: PromiseOrValue<BigNumberish>,
+      offset: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     like(
       _postId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -221,6 +258,12 @@ export interface SocialNetwork extends BaseContract {
 
     getPost(
       _postId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getPosts(
+      limit: PromiseOrValue<BigNumberish>,
+      offset: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

@@ -35,19 +35,87 @@ const _abi = [
     name: "getPost",
     outputs: [
       {
-        internalType: "string",
-        name: "message",
-        type: "string",
+        components: [
+          {
+            internalType: "uint256",
+            name: "postId",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "author",
+            type: "address",
+          },
+          {
+            internalType: "string",
+            name: "message",
+            type: "string",
+          },
+          {
+            internalType: "uint256",
+            name: "totalLikes",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "time",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct ISocialNetwork.PostDetail",
+        name: "",
+        type: "tuple",
       },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
       {
         internalType: "uint256",
-        name: "totalLikes",
+        name: "limit",
         type: "uint256",
       },
       {
         internalType: "uint256",
-        name: "time",
+        name: "offset",
         type: "uint256",
+      },
+    ],
+    name: "getPosts",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "postId",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "author",
+            type: "address",
+          },
+          {
+            internalType: "string",
+            name: "message",
+            type: "string",
+          },
+          {
+            internalType: "uint256",
+            name: "totalLikes",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "time",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct ISocialNetwork.PostDetail[]",
+        name: "",
+        type: "tuple[]",
       },
     ],
     stateMutability: "view",
