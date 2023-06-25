@@ -74,12 +74,7 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "limit",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "offset",
+        name: "order",
         type: "uint256",
       },
     ],

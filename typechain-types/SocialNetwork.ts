@@ -53,7 +53,7 @@ export interface SocialNetworkInterface extends utils.Interface {
   functions: {
     "getLastPostId()": FunctionFragment;
     "getPost(uint256)": FunctionFragment;
-    "getPosts(uint256,uint256)": FunctionFragment;
+    "getPosts(uint256)": FunctionFragment;
     "like(uint256)": FunctionFragment;
     "post(string)": FunctionFragment;
     "unlike(uint256)": FunctionFragment;
@@ -79,7 +79,7 @@ export interface SocialNetworkInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "getPosts",
-    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "like",
@@ -142,8 +142,7 @@ export interface SocialNetwork extends BaseContract {
     ): Promise<[ISocialNetwork.PostDetailStructOutput]>;
 
     getPosts(
-      limit: PromiseOrValue<BigNumberish>,
-      offset: PromiseOrValue<BigNumberish>,
+      order: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[ISocialNetwork.PostDetailStructOutput[]]>;
 
@@ -171,8 +170,7 @@ export interface SocialNetwork extends BaseContract {
   ): Promise<ISocialNetwork.PostDetailStructOutput>;
 
   getPosts(
-    limit: PromiseOrValue<BigNumberish>,
-    offset: PromiseOrValue<BigNumberish>,
+    order: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<ISocialNetwork.PostDetailStructOutput[]>;
 
@@ -200,8 +198,7 @@ export interface SocialNetwork extends BaseContract {
     ): Promise<ISocialNetwork.PostDetailStructOutput>;
 
     getPosts(
-      limit: PromiseOrValue<BigNumberish>,
-      offset: PromiseOrValue<BigNumberish>,
+      order: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<ISocialNetwork.PostDetailStructOutput[]>;
 
@@ -232,8 +229,7 @@ export interface SocialNetwork extends BaseContract {
     ): Promise<BigNumber>;
 
     getPosts(
-      limit: PromiseOrValue<BigNumberish>,
-      offset: PromiseOrValue<BigNumberish>,
+      order: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -262,8 +258,7 @@ export interface SocialNetwork extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     getPosts(
-      limit: PromiseOrValue<BigNumberish>,
-      offset: PromiseOrValue<BigNumberish>,
+      order: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

@@ -5,14 +5,8 @@ pragma solidity ^0.8.17;
 import "./interfaces/ISocialNetwork.sol";
 
 contract SocialNetwork is ISocialNetwork {
-    uint256 private _nextIdCounter = 1;
-
-    mapping(uint256 => Post) private _posts;
+    Post[] private _posts;
     mapping(uint256 => address[]) private _likers;
-
-    function _currentId() private view returns (uint256) {
-        return _nextIdCounter - 1;
-    }
 
     function _getPostDetail(uint256 _postId)
         private
@@ -36,15 +30,14 @@ contract SocialNetwork is ISocialNetwork {
             message: _message,
             time: block.timestamp
         });
-        _posts[_nextIdCounter] = newPost;
-        _nextIdCounter += 1;
+        _posts.push(newPost);
     }
 
     function getLastPostId() external view returns (uint256) {
-        if (_nextIdCounter == 1) {
+        if (_posts.length == 0) {
             revert("Posts does not exist.");
         }
-        return _currentId();
+        return _posts.length - 1;
     }
 
     function getPost(uint256 _postId)
@@ -84,24 +77,65 @@ contract SocialNetwork is ISocialNetwork {
         _likers[_postId].pop();
     }
 
-    function getPosts(uint256 limit, uint256 offset)
+    // order => 1: time(asc), 2:time(desc), 3:like(asc), 4:like(desc)
+    function getPosts(uint256 order)
         external
         view
         returns (PostDetail[] memory)
     {
-        uint256 currentId = _currentId();
-
-        if (currentId < offset) {
-            revert("Offset value is wrong.");
+        if (order != 1 && order != 2 && order != 3 && order != 4) {
+            revert("Order value is wrong.");
         }
 
-        uint256 targetLastId = currentId - offset;
-        uint256 loopNum = targetLastId > limit ? limit : targetLastId;
+        PostDetail[] memory result = new PostDetail[](_posts.length);
 
-        PostDetail[] memory result = new PostDetail[](loopNum);
+        for (uint256 i = 0; i < _posts.length; i++) {
+            PostDetail memory postDetail = _getPostDetail(i);
 
-        for (uint256 i = 0; i < loopNum; i++) {
-            result[i] = _getPostDetail(targetLastId - i);
+            //Put data into RESULT while sorting
+            if (order == 1) {
+                result[i] = postDetail;
+            } else if (order == 2) {
+                result[_posts.length - 1 - i] = postDetail;
+            } else if (order == 3) {
+                if (i == 0) {
+                    result[0] = postDetail;
+                    continue;
+                }
+                uint256 index = i;
+                for (uint256 j = 0; j < i; j++) {
+                    if (postDetail.totalLikes > result[j].totalLikes) {
+                        index = j;
+                        break;
+                    }
+                }
+                for (uint256 j = i - 1; j >= index; j--) {
+                    result[j + 1] = result[j];
+                    if (j == 0) {
+                        break;
+                    }
+                }
+                result[index] = postDetail;
+            } else if (order == 4) {
+                if (i == 0) {
+                    result[0] = postDetail;
+                    continue;
+                }
+                uint256 index = i;
+                for (uint256 j = 0; j < i; j++) {
+                    if (postDetail.totalLikes < result[j].totalLikes) {
+                        index = j;
+                        break;
+                    }
+                }
+                for (uint256 j = i - 1; j >= index; j--) {
+                    result[j + 1] = result[j];
+                    if (j == 0) {
+                        break;
+                    }
+                }
+                result[index] = postDetail;
+            }
         }
 
         return result;

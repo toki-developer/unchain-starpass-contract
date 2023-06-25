@@ -28,7 +28,10 @@ interface ISocialNetwork {
     function getPost(uint256 _postId) external view returns (PostDetail memory);
 
     // Returns the data of the post by its id.
-    function getPosts(uint256 limit, uint256 offset) external view returns (PostDetail[] memory);
+    function getPosts(uint256 order)
+        external
+        view
+        returns (PostDetail[] memory);
 
     // Returns the data of the post.
 
