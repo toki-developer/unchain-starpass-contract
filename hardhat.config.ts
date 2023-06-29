@@ -35,6 +35,9 @@ const config: HardhatUserConfig = {
                     ? [process.env.PRIVATE_KEY]
                     : [],
         },
+        hardhat: {
+            chainId: 1337,
+        },
     },
     typechain: {
         outDir: "typechain-types",

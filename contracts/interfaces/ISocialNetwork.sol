@@ -9,6 +9,7 @@ interface ISocialNetwork {
         string message;
         uint256 totalLikes;
         uint256 time;
+        uint256 isLike;
     }
 
     struct Post {

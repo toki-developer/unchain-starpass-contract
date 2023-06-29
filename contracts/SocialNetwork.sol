@@ -14,13 +14,23 @@ contract SocialNetwork is ISocialNetwork {
         returns (PostDetail memory)
     {
         Post memory target = _posts[_postId];
+
+        address[] memory likers = _likers[_postId];
+        uint256 isLike = 1; //1 true, 2 false
+        for(uint256 i = 0; i < likers.length; i++) {
+            if(likers[i] == msg.sender) {
+                isLike = 2;
+            }
+        }
+
         return
             PostDetail({
                 postId: _postId,
                 author: target.author,
                 message: target.message,
                 totalLikes: _likers[_postId].length,
-                time: target.time
+                time: target.time,
+                isLike: isLike
             });
     }
 

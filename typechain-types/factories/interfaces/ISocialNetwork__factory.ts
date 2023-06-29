@@ -61,6 +61,11 @@ const _abi = [
             name: "time",
             type: "uint256",
           },
+          {
+            internalType: "uint256",
+            name: "isLike",
+            type: "uint256",
+          },
         ],
         internalType: "struct ISocialNetwork.PostDetail",
         name: "",
@@ -105,6 +110,11 @@ const _abi = [
           {
             internalType: "uint256",
             name: "time",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "isLike",
             type: "uint256",
           },
         ],

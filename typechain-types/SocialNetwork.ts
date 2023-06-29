@@ -32,12 +32,14 @@ export declare namespace ISocialNetwork {
     message: PromiseOrValue<string>;
     totalLikes: PromiseOrValue<BigNumberish>;
     time: PromiseOrValue<BigNumberish>;
+    isLike: PromiseOrValue<BigNumberish>;
   };
 
   export type PostDetailStructOutput = [
     BigNumber,
     string,
     string,
+    BigNumber,
     BigNumber,
     BigNumber
   ] & {
@@ -46,6 +48,7 @@ export declare namespace ISocialNetwork {
     message: string;
     totalLikes: BigNumber;
     time: BigNumber;
+    isLike: BigNumber;
   };
 }
 
